@@ -9,12 +9,16 @@ module ActiveRecord
     end
 
     def test_method_missing
-      assert_raises(NoMethodError) { @query.title(:foo) }
-      assert_raises(NoMethodError) { @query.title { :foo } }
+      assert_raises(ArgumentError) { @query.title(:foo) }
+      assert_raises(ArgumentError) { @query.title { :foo } }
 
       subject = stub
       Query::Subject.expects(:new).with(@query, :title).returns(subject)
       assert_equal subject, @query.title
+    end
+
+    def test_respond_to
+      assert @query.respond_to?(:title)
     end
 
     def test_table

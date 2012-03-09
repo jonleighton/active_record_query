@@ -7,11 +7,15 @@ class ActiveRecord::Query
     end
 
     def method_missing(method_name, *args, &block)
-      unless args.empty? && !block
-        super
-      else
+      if args.empty? && !block
         Subject.new(@owner, method_name, ::Arel::Table.new(@name))
+      else
+        ::Kernel.raise ::ArgumentError
       end
+    end
+
+    def respond_to?(name, include_private = nil)
+      true
     end
 
     def ==(value)

@@ -22,8 +22,12 @@ module ActiveRecord
       if args.empty? && !block
         Subject.new(self, name)
       else
-        super
+        ::Kernel.raise ::ArgumentError
       end
+    end
+
+    def respond_to?(name, include_private = nil)
+      true
     end
 
     def and

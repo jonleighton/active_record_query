@@ -96,4 +96,13 @@ class SubjectTest < MiniTest::Unit::TestCase
 
     assert_equal sub2, @subject.bar
   end
+
+  def test_method_missing_with_args
+    assert_raises(ArgumentError) { @subject.bar(:foo) }
+    assert_raises(ArgumentError) { @subject.bar { :foo } }
+  end
+
+  def test_respond_to
+    assert @subject.respond_to?(:bar)
+  end
 end
