@@ -11,11 +11,10 @@ module ActiveRecord
       assert_raises(NoMethodError) { @query.title(:foo) }
       assert_raises(NoMethodError) { @query.title { :foo } }
 
-      @query.title.tap do |s|
-        assert_equal Query::Subject, s.class
-        assert_equal @query, s.owner
-        assert_equal :title, s.name
-      end
+      subject = stub
+      class << @query; include ::Mocha::ObjectMethods; end # ffs
+      Query::Subject.expects(:new).with(@query, :title).returns(subject)
+      assert_equal subject, @query.title
     end
 
     def test_table

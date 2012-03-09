@@ -77,5 +77,15 @@ module ActiveRecord::Query
       @owner.expects(:<<).with(@column.lteq(:bar))
       @subject <= :bar
     end
+
+    def test_method_missing
+      table = stub
+      sub2  = stub
+
+      Arel::Table.expects(:new).with(:foo).returns(table)
+      Subject.expects(:new).with(@owner, :bar, table).returns(sub2)
+
+      assert_equal sub2, @subject.bar
+    end
   end
 end

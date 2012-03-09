@@ -1,51 +1,55 @@
 module ActiveRecord::Query
-  class Subject
-    attr_reader :owner, :name
-
+  class Subject < BasicObject
     def initialize(owner, name, table = nil)
       @owner = owner
       @name  = name
-      @table = table
+      @table = table || @owner.table
     end
 
-    def table
-      @table || owner.table
-    end
-
-    def add(operator, value)
-      @owner << table[name].send(operator, value)
+    def method_missing(method_name, *args, &block)
+      unless args.empty? && !block
+        super
+      else
+        Subject.new(@owner, method_name, ::Arel::Table.new(@name))
+      end
     end
 
     def ==(value)
-      add :eq, value
+      __add__ :eq, value
     end
 
     def !=(value)
-      add :not_eq, value
+      __add__ :not_eq, value
     end
 
     def =~(value)
-      add :matches, value
+      __add__ :matches, value
     end
 
     def !~(value)
-      add :does_not_match, value
+      __add__ :does_not_match, value
     end
 
     def >(value)
-      add :gt, value
+      __add__ :gt, value
     end
 
     def <(value)
-      add :lt, value
+      __add__ :lt, value
     end
 
     def >=(value)
-      add :gteq, value
+      __add__ :gteq, value
     end
 
     def <=(value)
-      add :lteq, value
+      __add__ :lteq, value
+    end
+
+    private
+
+    def __add__(operator, value)
+      @owner << @table[@name].send(operator, value)
     end
   end
 end
