@@ -70,5 +70,30 @@ module ActiveRecord
       assert_equal [@hello], Post.joins(:comments).where { |q| q.comments.author == 'Jon' }
       assert_equal [], Post.joins(:comments).where { |q| q.comments.author == 'Bob' }
     end
+
+    def test_nested_contexts
+      query = Post.any { |q|
+        q.title == 'non-existent' ||
+        q.and {
+          q.title == 'Hello' &&
+          q.or {
+            q.title == 'other' ||
+            q.title =~ 'Hell%'
+          }
+        }
+      }
+
+      assert query.to_sql.include?(
+        %q{("posts"."title" = 'non-existent' OR ("posts"."title" = 'Hello' AND ("posts"."title" = 'other' OR "posts"."title" LIKE 'Hell%')))}
+      )
+
+      assert_equal [@hello], query
+
+      query = Post.any { |q| q.and { q.title == 'a' && q.title == 'b' } || q.title == 'c' }
+
+      assert query.to_sql.include?(
+        %q{(("posts"."title" = 'a' AND "posts"."title" = 'b') OR "posts"."title" = 'c')}
+      )
+    end
   end
 end

@@ -1,4 +1,4 @@
-module ActiveRecord::Query
+class ActiveRecord::Query
   class Subject < BasicObject
     def initialize(owner, name, table = nil)
       @owner = owner

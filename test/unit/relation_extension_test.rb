@@ -33,7 +33,7 @@ module ARQuery
     end
 
     def test_where_with_block
-      ActiveRecord::Query::And.expects(:new).with(:table).returns(@query)
+      ActiveRecord::Query.expects(:new).with(:table, :and).returns(@query)
 
       query = nil
       @relation.where { |q| query = q }
@@ -43,7 +43,7 @@ module ARQuery
     end
 
     def test_any
-      ActiveRecord::Query::Or.expects(:new).with(:table).returns(@query)
+      ActiveRecord::Query.expects(:new).with(:table, :or).returns(@query)
 
       query = nil
       @relation.any { |q| query = q }

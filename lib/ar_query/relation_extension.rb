@@ -4,7 +4,7 @@ module ARQuery
   module RelationExtension
     def where(*args)
       if args.empty? && block_given?
-        query = ActiveRecord::Query::And.new(table)
+        query = ActiveRecord::Query.new(table, :and)
         yield query
         super query.arel
       else
@@ -13,7 +13,7 @@ module ARQuery
     end
 
     def any
-      query = ActiveRecord::Query::Or.new(table)
+      query = ActiveRecord::Query.new(table, :or)
       yield query
       where(query.arel)
     end
