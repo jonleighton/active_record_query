@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jon Leighton"]
   s.email       = ["j@jonathanleighton.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Proof of concept for proposed new AR query API}
+  s.description = %q{Proof of concept for proposed new AR query API}
 
   s.rubyforge_project = "ar_query"
 
@@ -18,9 +18,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency 'arel'
+  s.add_dependency 'activerecord'
 
-  s.add_development_dependency 'activerecord'
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'mocha'
 end
