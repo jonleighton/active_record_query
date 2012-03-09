@@ -1,4 +1,4 @@
-# AR Query Plugin #
+# Active Record Query Plugin #
 
 Imaginatively named, I know.
 

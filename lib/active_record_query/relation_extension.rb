@@ -1,6 +1,6 @@
 require 'active_support/core_ext/module/delegation'
 
-module ARQuery
+module ActiveRecordQuery
   module RelationExtension
     def where(*args)
       if args.empty? && block_given?
@@ -24,7 +24,7 @@ if defined?(ActiveRecord::Base)
   require 'active_record/relation'
 
   class ActiveRecord::Relation
-    include ARQuery::RelationExtension
+    include ActiveRecordQuery::RelationExtension
   end
 
   class << ActiveRecord::Base

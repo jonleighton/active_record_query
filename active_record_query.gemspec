@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "ar_query/version"
+require "active_record_query/version"
 
 Gem::Specification.new do |s|
-  s.name        = "ar_query"
+  s.name        = "active_record_query"
   s.version     = ARQuery::VERSION
   s.authors     = ["Jon Leighton"]
   s.email       = ["j@jonathanleighton.com"]
-  s.homepage    = ""
-  s.summary     = %q{Proof of concept for proposed new AR query API}
-  s.description = %q{Proof of concept for proposed new AR query API}
+  s.homepage    = "https://github.com/jonleighton/active_record_query"
+  s.summary     = %q{Proof of concept for proposed new Active Record query API}
+  s.description = %q{Proof of concept for proposed new Active Record query API}
 
   s.rubyforge_project = "ar_query"
 

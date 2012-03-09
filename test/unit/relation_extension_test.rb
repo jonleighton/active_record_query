@@ -1,6 +1,6 @@
 require 'helper'
 
-module ARQuery
+module ActiveRecordQuery
   class RelationExtensionTest < MiniTest::Unit::TestCase
     class FakeRelation
       module Where
