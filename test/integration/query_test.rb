@@ -46,6 +46,8 @@ module ActiveRecord
         q.title < 'x'
         q.title >= 'x'
         q.title <= 'x'
+        q.title.in 'x'
+        q.title.not_in 'x'
       end
     end
 

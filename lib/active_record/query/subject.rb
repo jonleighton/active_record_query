@@ -46,6 +46,14 @@ module ActiveRecord::Query
       __add__ :lteq, value
     end
 
+    def in(value)
+      __add__ :in, value
+    end
+
+    def not_in(value)
+      __add__ :not_in, value
+    end
+
     private
 
     def __add__(operator, value)

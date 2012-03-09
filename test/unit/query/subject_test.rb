@@ -16,7 +16,7 @@ module ActiveRecord::Query
           other.name  == name
       end
 
-      PREDICATES = [:eq, :not_eq, :matches, :does_not_match, :gt, :lt, :gteq, :lteq]
+      PREDICATES = [:eq, :not_eq, :matches, :does_not_match, :gt, :lt, :gteq, :lteq, :in, :not_in]
 
       PREDICATES.each do |pred|
         define_method pred do |other|
@@ -76,6 +76,16 @@ module ActiveRecord::Query
     def test_lteq
       @owner.expects(:<<).with(@column.lteq(:bar))
       @subject <= :bar
+    end
+
+    def test_in
+      @owner.expects(:<<).with(@column.in(:bar))
+      @subject.in(:bar)
+    end
+
+    def test_not_in
+      @owner.expects(:<<).with(@column.not_in(:bar))
+      @subject.not_in(:bar)
     end
 
     def test_method_missing
