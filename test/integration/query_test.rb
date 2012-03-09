@@ -24,10 +24,6 @@ module ActiveRecord
       Post.delete_all
     end
 
-    def test_basic
-      assert_equal [@hello], Post.where { |q| q.title == 'Hello' }
-    end
-
     # Checks that none of the operators blow up
     def test_operators
       Post.where do |q|
@@ -40,6 +36,21 @@ module ActiveRecord
         q.title >= 'x'
         q.title <= 'x'
       end
+    end
+
+    def test_basic_query
+      assert_equal [@hello], Post.where { |q| q.title == 'Hello' }
+    end
+
+    def test_and_query
+      assert_equal [@hello], Post.where { |q| q.title == 'Hello' && q.title =~ 'Hell%' }
+      assert_equal [], Post.where { |q| q.title == 'Hello' && q.title == 'Goodbye' }
+    end
+
+    def test_or_query
+      assert_equal [@hello, @goodbye], Post.any { |q| q.title == 'Hello' || q.title == 'Goodbye' }
+      assert_equal [@hello], Post.any { |q| q.title == 'Hello' || q.title == 'non-existent' }
+      assert_equal [@hello], Post.any { |q| q.title == 'non-existent' || q.title == 'Hello' }
     end
   end
 end

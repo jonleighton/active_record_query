@@ -20,7 +20,15 @@ module ActiveRecord::Query
     end
 
     def arel
-      raise NotImplementedError
+      ::Kernel.raise ::NotImplementedError
+    end
+
+    def __class__
+      ::Kernel.raise ::NotImplementedError
+    end
+
+    def inspect
+      "#<#{__class__} table=#{table.inspect}>"
     end
   end
 end

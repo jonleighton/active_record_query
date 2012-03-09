@@ -1,6 +1,6 @@
-require 'active_record/relation'
+require 'active_support/core_ext/module/delegation'
 
-module ArQuery
+module ARQuery
   module RelationExtension
     def where(*args)
       if args.empty? && block_given?
@@ -11,9 +11,23 @@ module ArQuery
         super
       end
     end
+
+    def any
+      query = ActiveRecord::Query::Or.new(table)
+      yield query
+      where(query.arel)
+    end
   end
 end
 
-class ActiveRecord::Relation
-  include ArQuery::RelationExtension
+if defined?(ActiveRecord::Base)
+  require 'active_record/relation'
+
+  class ActiveRecord::Relation
+    include ARQuery::RelationExtension
+  end
+
+  class << ActiveRecord::Base
+    delegate :any, :to => :scoped
+  end
 end
